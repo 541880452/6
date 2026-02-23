@@ -2,7 +2,7 @@ import streamlit as st
 import random
 import time
 
-st.set_page_config(page_title="damn游戏", page_icon=" ", layout="centered")
+st.set_page_config(page_title="数字炸damn游戏", page_icon=" ", layout="centered")
 
 st.markdown("""
 <style>
@@ -65,14 +65,14 @@ if "secret" not in st.session_state:
     st.session_state.attempts_input = ""
     st.session_state.step = "setup"
 
-st.markdown('<div class="title-decoration">damn游戏</div>', unsafe_allow_html=True)
+st.markdown('<div class="title-decoration">数字炸damn游戏</div>', unsafe_allow_html=True)
 
 if st.session_state.step == "setup":
     mode = st.radio("模式：", ["猜对胜利", "猜对失败"], index=None, horizontal=True)
     if mode:
         st.session_state.mode = 1 if mode == "猜对胜利" else 2
 
-    attempts = st.text_input("尝试次数（留空为无限次）", value=st.session_state.attempts_input)
+    attempts = st.text_input("尝试次数（不填为无限次数）", value=st.session_state.attempts_input)
     st.session_state.attempts_input = attempts
 
     if st.button("开始新游戏"):
@@ -95,7 +95,7 @@ if st.session_state.step == "setup":
             st.session_state.low = 0
             st.session_state.high = 100
             st.session_state.game_over = False
-            st.session_state.message = f"范围：0～100\n剩余次数：{'∞' if st.session_state.attempts_left == float('inf') else st.session_state.attempts_left}"
+            st.session_state.message = f"范围：0～100"
             st.session_state.step = "playing"
             st.rerun()
 
@@ -121,14 +121,14 @@ elif st.session_state.step == "playing":
                         st.session_state.message = f"炸了！炸弹是 {st.session_state.secret}\n你输了！"
                 elif guess > st.session_state.secret:
                     st.session_state.high = guess
-                    st.session_state.message = f"大了\ndamn在：{st.session_state.low}～{st.session_state.high}之中"
+                    st.session_state.message = f"damn在：{st.session_state.low}～{st.session_state.high}之间"
                 else:
                     st.session_state.low = guess
-                    st.session_state.message = f"小了\ndamn在：{st.session_state.low}～{st.session_state.high}之中"
+                    st.session_state.message = f"damn在：{st.session_state.low}～{st.session_state.high}之间"
 
                 if not st.session_state.game_over and st.session_state.attempts_left == 0 and st.session_state.max_attempts != float('inf'):
                     st.session_state.game_over = True
-                    st.session_state.message = f"游戏结束！炸弹是 {st.session_state.secret}"
+                    st.session_state.message = f"游戏结束！damn是 {st.session_state.secret}"
 
                 if st.session_state.game_over:
                     st.session_state.step = "ended"
